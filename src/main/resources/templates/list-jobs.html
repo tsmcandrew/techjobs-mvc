@@ -11,6 +11,18 @@
     <h1 th:text="${#strings.capitalizeWords(title)}"></h1>
 
     <!-- TODO #3 - Use the same list display from search.html -->
+    <div th:if="${search_items} and ${search_items.size()}">
+
+        <table class="job-listing">
+            <tr th:each="item, idx : ${search_items}" th:class="${idx.odd} ? 'odd'">
+                <td th:text="${item}"></td>
+                <td th:text="${idx}"></td>
+            </tr>
+        </table>
+
+    </div>
+
+    <p th:unless="${search_items} and ${search_items.size()}">| No Results |</p>
 
 </div>
 

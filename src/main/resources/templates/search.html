@@ -8,9 +8,7 @@
 
 <div class="container body-content">
 
-    <h1 th:text="${#strings.capitalizeWords(title)}"></h1>
-
-    <form th:action="@{/search/results}">
+    <form th:action="@{/search/results}" method="post">
         <h2>Search by:</h2>
 
         <p>
@@ -37,6 +35,24 @@
     <hr />
 
     <!-- TODO #2 - Loop over jobs map to display all job fields -->
+
+
+    <div th:if="${search_items} and ${search_items.size()}">
+
+        <table class="job-listing">
+            <tbody th:each="item, idx : ${jobs}" th:class="${idx.odd} ? 'odd'">
+            <tr th:each="i : ${item}">
+                <td th:text="${i.key}"></td>
+                <td th:text="${i.value}"></td>
+            </tr>
+            </tbody>
+            <p></p>
+        </table>
+
+
+    </div>
+
+    <p th:unless="${search_items} and ${search_items.size()}">| No Results |</p>
 
 </div>
 
