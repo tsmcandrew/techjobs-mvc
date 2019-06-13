@@ -35,10 +35,13 @@ public class SearchController {
             ArrayList<HashMap<String, String>> jobs = JobData.findAll();
             ArrayList<HashMap<String, String>> search_items = new ArrayList<HashMap<String, String>>();
             ArrayList<HashMap<String,String>> jobs_unique = new ArrayList<>();
+            ArrayList<String> items = JobData.findAll(searchType);
             model.addAttribute("title", "All Jobs");
             model.addAttribute("jobs", jobs_unique);
-            model.addAttribute("searched_items", search_items);
+            model.addAttribute("search_items", search_items);
             model.addAttribute("columns", ListController.columnChoices);
+            model.addAttribute("items", jobs);
+            model.addAttribute("column", searchType);
 
 
             for (HashMap<String, String> job : jobs) {
@@ -63,6 +66,9 @@ public class SearchController {
 
             }
 
+            String jobs_count = Integer.toString(jobs_unique.size()) + " Result(s)";
+            model.addAttribute("jobs_count", jobs_count);
+
             return "search";
         } else {
             ArrayList<HashMap<String, String>> someJobs = JobData.findByColumnAndValue(searchType, searchTerm);
@@ -70,12 +76,14 @@ public class SearchController {
             ArrayList<String> items = JobData.findAll(searchType);
             ArrayList<String> search_items = new ArrayList<>();
             HashMap<String, String> jobs = new HashMap<>();
+
             model.addAttribute("title", "All " + ListController.columnChoices.get(searchType) + " Values");
             model.addAttribute("column", searchType);
             model.addAttribute("items", items);
             model.addAttribute("search_items", search_items);
             model.addAttribute("jobs", jobs_unique);
             model.addAttribute("columns", ListController.columnChoices);
+
 
             //ArrayList<HashMap<String, String>> searched_jobs = new ArrayList<HashMap<String, String>>();
             ArrayList<String> search_params = new ArrayList<>();
@@ -93,12 +101,14 @@ public class SearchController {
             }
 
             for (HashMap<String, String> job : someJobs) {
+                HashMap<String, String> job_return = new HashMap<>();
 
                 if (!jobs_unique.contains(job)) {
                     jobs_unique.add(job);
                 }
             }
-
+            String jobs_count = Integer.toString(jobs_unique.size()) + " Result(s)";
+            model.addAttribute("jobs_count", jobs_count);
             /*for (HashMap<String, String> job_map : jobs_unique){
 
                 for (String key : job_map.keySet()){
